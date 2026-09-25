@@ -8,9 +8,15 @@ import path from 'node:path'
 import cookieParser from 'cookie-parser';
 //importa modulos para manejar logs
 import logger from 'morgan'
+//importando debug
+import importdebug from 'debug'
 //imports para crear Dirname
 import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
+
+//ejecutando importdebug
+const debug = importdebug('dwssr-2026b:server')
+debug("🔨 creando backend")
 
 
 //creando las variables 
@@ -20,10 +26,11 @@ const __dirname = dirname(__filename)
 //importa las rutas de la aplicacion
 import indexRouter from './routes/index.js'
 import usersRouter from './routes/users.js'
-import { isModuleNamespaceObject } from 'node:util/types';
 
 //crea la aplicacion de express
 const app = express();
+
+
 
 // view engine setup, configura el motor de vistas
 app.set('views', path.join(__dirname, 'views'));
@@ -35,9 +42,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+
+debug("🔨 creando servidor de archivos eataticos")
 //configura la ruta de archivos estaticos
 app.use(express.static(path.join(__dirname, '..','public')));
 
+debug("🛤️  registrando rutas")
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
