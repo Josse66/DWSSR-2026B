@@ -19,7 +19,7 @@ const debug = importdebug('dwssr-2026b:server')
 debug("🔨 creando backend")
 
 
-//creando las variables 
+//creando las variables de rutas
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
