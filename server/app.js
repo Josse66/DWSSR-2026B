@@ -54,7 +54,7 @@ if(process.env.NODE_ENV == 'production'){
 }
 
 
-debug("🔨 creando servidor de archivos eataticos")
+debug("🔨 creando servidor de archivos estaticos")
 //configura la ruta de archivos estaticos
 app.use(express.static(path.join(__dirname, '..','public')));
 

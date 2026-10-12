@@ -11,7 +11,6 @@ import hbs from 'hbs'
 //imports para crear Dirname
 import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
-import { hasSubscribers } from 'node:diagnostics_channel';
 
 //creando las variables de rutas
 const __filename = fileURLToPath(import.meta.url)
@@ -38,7 +37,7 @@ export function viteAssets(){
         `
     }
     //en produccion leemos el manifest y generamos las etiquetas finales de produccion
-    const manifestPath= path.join(__dirname, '..', '..', 'dist', 'vite', 'manifest.json') 
+    const manifestPath = path.join(__dirname, '..', '..', 'dist', '.vite', 'manifest.json') 
 
     //si no existe lanzamos una alerta
     if(!fs.existsSync(manifestPath)){
@@ -49,7 +48,8 @@ export function viteAssets(){
     //leyendo y parseando a JSON el archivo de manifiesto quwe genera vite en la compilacion
     //de los archivos del fron-end
     const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'))
-    const mainEntry = manifest["main.js"]
+    const mainEntry = manifest["main.js"] || manifest["index.html"] || Object.values(manifest).find(entry => entry.isEntry)
+    
     //guarda el main.js
     if(!mainEntry){
         console.warn('El archivo main.js no esta disposnible en el manisfiseto de Vite.')
@@ -66,10 +66,11 @@ export function viteAssets(){
     }
 
     //JS files
-    tags += `<script type='module src="/${mainEntry.file} defer'></script>`
+    tags += `<script type="module" src="/${mainEntry.file}" defer></script>`
 
     return tags
 }
+
 /*
 Funcion registradora del helper de Handlebars
 */
