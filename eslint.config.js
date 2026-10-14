@@ -18,12 +18,18 @@ export default defineConfig([
     plugins: { js },
    extends: ["js/recommended"],
     languageOptions: { 
+      ecmaVersion: "latest",
+      sourceType: "module",
       globals: { 
-        ecmaVersion: "latest",
-        sourceType: "module",
         ...globals.node 
       } 
     } 
+  },
+  {
+    rules:{
+    "no-unused-vars": ["error", {
+      "argsIgnorePattern":"^_"}]
+  },
   },
 
   //2.1) Config de  vite
@@ -33,9 +39,9 @@ export default defineConfig([
     plugins: { js },
    extends: ["js/recommended"],
     languageOptions: { 
+      ecmaVersion: "latest",
+      sourceType: "module",
       globals: { 
-        ecmaVersion: "latest",
-        sourceType: "module",
         ...globals.node 
       } 
     } 
@@ -47,9 +53,9 @@ export default defineConfig([
     plugins: { js },
    extends: ["js/recommended"],
     languageOptions: { 
+      ecmaVersion: "latest",
+      sourceType: "module",
       globals: { 
-        ecmaVersion: "latest",
-        sourceType: "module",
         ...globals.browser,
       } 
     } 
@@ -61,9 +67,9 @@ export default defineConfig([
     plugins: { js },
    extends: ["js/recommended"],
     languageOptions: { 
+      ecmaVersion: "latest",
+      sourceType: "module",
       globals: { 
-        ecmaVersion: "latest",
-        sourceType: "module",
         ...globals.browser,
       } 
     } 
