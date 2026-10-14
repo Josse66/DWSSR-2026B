@@ -1,6 +1,16 @@
 //importando el condigurador de vite
 import {defineConfig} from "vite"
 
+//
+import tailwindcss from '@tailwindcss/vite'
+
+//imports para crear Dirname
+import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
+//creando las variables de rutas
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+
 //importando el administrador de rutas de node
 import {resolve} from "node:path"
 
@@ -8,6 +18,8 @@ export default defineConfig({
     //directorio raiz de los archivos fuente del front-end
     root: "src",
     //configurando un servidor de desarrollo
+    //agregando a vite pliging de tailwindcss
+    plugins: [tailwindcss()],
     server: {
         //pueto de listening
         port: 5173,
