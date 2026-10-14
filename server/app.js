@@ -35,7 +35,6 @@ import {registerViteHelper} from './lib/vite.js'
 const app = express();
 
 
-
 // view engine setup, configura el motor de vistas
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -78,4 +77,9 @@ app.use(function(err, req, res, _next) {
   res.render('error');
 });
 
+//(()=>{
+ // if (10 == age) {
+   // console.log("Codigo")
+ // } 
+//})()
 export default app;
