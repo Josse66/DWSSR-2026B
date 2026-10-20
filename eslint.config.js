@@ -12,32 +12,29 @@ export default defineConfig([
   },
 
   //2) Conding del Back-end
-
   { 
     files: ["server/**/*.{js,mjs}"],
     plugins: { js },
-   extends: ["js/recommended"],
+    extends: ["js/recommended"],
     languageOptions: { 
       ecmaVersion: "latest",
       sourceType: "module",
       globals: { 
         ...globals.node 
       } 
-    } 
-  },
-  {
-    rules:{
-    "no-unused-vars": ["error", {
-      "argsIgnorePattern":"^_"}]
-  },
+    },
+    // Ajuste aquí: Se mantienen tus reglas de server y sumamos la de puntos y coma extras
+    rules: {
+      "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+      "no-extra-semi": "error"
+    }
   },
 
   //2.1) Config de  vite
-
   { 
     files: ["vite.config.js"],
     plugins: { js },
-   extends: ["js/recommended"],
+    extends: ["js/recommended"],
     languageOptions: { 
       ecmaVersion: "latest",
       sourceType: "module",
@@ -51,7 +48,7 @@ export default defineConfig([
   { 
     files: ["src/**/*.{js,mjs}"],
     plugins: { js },
-   extends: ["js/recommended"],
+    extends: ["js/recommended"],
     languageOptions: { 
       ecmaVersion: "latest",
       sourceType: "module",
@@ -65,7 +62,7 @@ export default defineConfig([
   { 
     files: ["public/**/*.{js,mjs}"],
     plugins: { js },
-   extends: ["js/recommended"],
+    extends: ["js/recommended"],
     languageOptions: { 
       ecmaVersion: "latest",
       sourceType: "module",
