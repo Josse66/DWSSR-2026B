@@ -1,74 +1,65 @@
-import js from "@eslint/js";
-import globals from "globals";
-import { defineConfig } from "eslint/config";
+import { defineConfig, globalIgnores } from 'eslint/config';
+import js from '@eslint/js';
+import globals from 'globals';
+import { plugins, rules } from 'eslint-config-airbnb-extended';
+import prettier from 'eslint-config-prettier/flat';
+
+const { base } = rules;
+
+// Reglas de Airbnb (base) sin las de formato: de eso se encarga Prettier
+const airbnbBase = [
+  base.bestPractices,
+  base.errors,
+  base.es6,
+  base.imports,
+  base.strict,
+  base.style,
+  base.variables,
+].map((ruleSet) => ({ name: ruleSet.name, rules: ruleSet.rules }));
 
 export default defineConfig([
-  //1) ignora los build del front
+  globalIgnores([
+    'dist/**',
+    'node_modules/**',
+    '.devcontainer/**',
+    '.vscode/**',
+    '.github/**',
+    '*.config.js',
+  ]),
   {
-    ignores:[
-      "dist/**", //ignora la carpeta dist
-      "node_modules/**" //ignora la carpeta node_modules
-    ]
-  },
-
-  //2) Conding del Back-end
-  { 
-    files: ["server/**/*.{js,mjs}"],
-    plugins: { js },
-    extends: ["js/recommended"],
-    languageOptions: { 
-      ecmaVersion: "latest",
-      sourceType: "module",
-      globals: { 
-        ...globals.node 
-      } 
+    files: ['**/*.{js,mjs}'],
+    plugins: { js, ...plugins.importX.plugins },
+    extends: ['js/recommended'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
     },
-    // Ajuste aquí: Se mantienen tus reglas de server y sumamos la de puntos y coma extras
+    settings: {
+      'import-x/resolver-next': [plugins.importX.plugins['import-x'].createNodeResolver()],
+    },
+  },
+  ...airbnbBase,
+  // Back-end
+  {
+    files: ['server/**/*.{js,mjs}'],
+    languageOptions: { globals: { ...globals.node } },
+  },
+  // Front-end
+  {
+    files: ['src/**/*.{js,mjs}', 'public/**/*.{js,mjs}'],
+    languageOptions: { globals: { ...globals.browser } },
+  },
+  {
     rules: {
-      "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-      "no-extra-semi": "error"
-    }
+      'no-underscore-dangle': ['error', { allow: ['__filename', '__dirname'] }],
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      // Los alias "#server/*" y devDependencies de configuración
+      // ESM en Node exige la extensión .js en imports relativos
+      'import-x/extensions': ['error', 'ignorePackages'],
+      'import-x/no-unresolved': ['error', { ignore: ['^#'] }],
+      'import-x/no-extraneous-dependencies': ['error', { devDependencies: [] }],
+    },
   },
-
-  //2.1) Config de  vite
-  { 
-    files: ["vite.config.js"],
-    plugins: { js },
-    extends: ["js/recommended"],
-    languageOptions: { 
-      ecmaVersion: "latest",
-      sourceType: "module",
-      globals: { 
-        ...globals.node 
-      } 
-    } 
-  },
-  
-  //3) Coding del font-end
-  { 
-    files: ["src/**/*.{js,mjs}"],
-    plugins: { js },
-    extends: ["js/recommended"],
-    languageOptions: { 
-      ecmaVersion: "latest",
-      sourceType: "module",
-      globals: { 
-        ...globals.browser,
-      } 
-    } 
-  },
-
-  //4) Si hay JS en public
-  { 
-    files: ["public/**/*.{js,mjs}"],
-    plugins: { js },
-    extends: ["js/recommended"],
-    languageOptions: { 
-      ecmaVersion: "latest",
-      sourceType: "module",
-      globals: { 
-        ...globals.browser,
-      } 
-    } 
-  },
+  // Siempre al final: desactiva reglas que chocan con Prettier
+  prettier,
 ]);
