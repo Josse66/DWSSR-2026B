@@ -1,13 +1,14 @@
 import express from 'express';
-const router = express.Router();
+
+const indexRouter = express.Router();
 
 let counter = 0;
 const numbers = []
 
 /* GET home page. */
 // eslint-disable-next-line
-router.get('/', function(req, res, next) {
-  counter++;
+indexRouter.get('/', function(req, res, next) {
+  counter+=1;
   numbers.push(counter)
   res.render('index', { title: 'Jose Armando',
     counter,
@@ -15,4 +16,4 @@ router.get('/', function(req, res, next) {
   });
 });
 
-export default router;
+export default indexRouter;

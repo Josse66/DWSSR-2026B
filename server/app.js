@@ -3,7 +3,7 @@ import createError from 'http-errors'
 //importa el framework express
 import express from 'express'
 //imporeta modulos para importar rutas
-import path from 'node:path'
+import {path, dirname} from 'node:path'
 //importa modulos para manejar cookies
 import cookieParser from 'cookie-parser';
 //importa modulos para manejar logs
@@ -12,9 +12,14 @@ import logger from 'morgan'
 import importdebug from 'debug'
 //imports para crear Dirname
 import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
 //importando el template engine Handlebars
 import hbs from 'hbs'
+
+//importa las rutas de la aplicacion
+import indexRouter from '#routes/index.js'
+import usersRouter from '#routes/users.js'
+//importando el registrador del helper
+import {registerViteHelper} from './lib/vite.js'
 
 //ejecutando importdebug
 const debug = importdebug('dwssr-2026b:server')
@@ -24,12 +29,6 @@ debug("🔨 creando backend")
 //creando las variables de rutas
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
-
-//importa las rutas de la aplicacion
-import indexRouter from '#routes/index.js'
-import usersRouter from '#routes/users.js'
-//importando el registrador del helper
-import {registerViteHelper} from './lib/vite.js'
 
 //crea la aplicacion de express
 const app = express();
@@ -48,7 +47,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 //archivos estaticos para produccion
-if(process.env.NODE_ENV == 'production'){
+if(process.env.NODE_ENV === 'production'){
   app.use(express.static(path.join(__dirname, '..','dist')));
 }
 
@@ -62,12 +61,12 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
-app.use(function(_req, _res, _next) {
+app.use((_req, _res, _next) => {
   _next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, _next) {
+app.use((err, req, res, _next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

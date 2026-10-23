@@ -2,7 +2,7 @@
 import fs from 'node:fs'
 
 //bibloteca de rutas
-import path from 'node:path'
+import {path, dirname} from 'node:path'
 
 //importando hbs
 //importando el template engine Handlebars
@@ -10,7 +10,12 @@ import hbs from 'hbs'
 
 //imports para crear Dirname
 import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
+
+//importandeo debug
+import importdebug from 'debug'
+
+//ejecutando importdebug
+const debug = importdebug('dwssr-2026b:server')
 
 //creando las variables de rutas
 const __filename = fileURLToPath(import.meta.url)
@@ -41,7 +46,7 @@ export function viteAssets(){
 
     //si no existe lanzamos una alerta
     if(!fs.existsSync(manifestPath)){
-        console.warn("Vite manifest not found, Run 'npm run build' ")
+        debug("Vite manifest not found, Run 'npm run build' ")
         return ''
     }
 
@@ -52,7 +57,7 @@ export function viteAssets(){
     
     //guarda el main.js
     if(!mainEntry){
-        console.warn('El archivo main.js no esta disposnible en el manisfiseto de Vite.')
+        debug('El archivo main.js no esta disposnible en el manisfiseto de Vite.')
         return ''
     }
 
