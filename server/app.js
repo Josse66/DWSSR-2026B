@@ -3,11 +3,11 @@ import createError from 'http-errors'
 //importa el framework express
 import express from 'express'
 //imporeta modulos para importar rutas
-import {path, dirname} from 'node:path'
+import path, {dirname} from 'node:path'
 //importa modulos para manejar cookies
 import cookieParser from 'cookie-parser';
 //importa modulos para manejar logs
-import logger from 'morgan'
+import morgan from 'morgan'
 //importando debug
 import importdebug from 'debug'
 //imports para crear Dirname
@@ -41,7 +41,7 @@ app.set('view engine', 'hbs');
 registerViteHelper(hbs)
 
 //configurar middelwares de la aplicacion
-app.use(logger('dev'));
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

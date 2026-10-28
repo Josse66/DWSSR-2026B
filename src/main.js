@@ -2,4 +2,4 @@
 import './styles/main.css'
 
 //imprimiendo el consola
-console.log("🎉 VITE ⚡ + EXPRESS 🚂 Working!!")
+console.warn("🎉 VITE ⚡ + EXPRESS 🚂 Working!!")

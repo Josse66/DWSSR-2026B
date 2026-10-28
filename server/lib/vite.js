@@ -2,7 +2,7 @@
 import fs from 'node:fs'
 
 //bibloteca de rutas
-import {path, dirname} from 'node:path'
+import path, {dirname} from 'node:path'
 
 //importando hbs
 //importando el template engine Handlebars
