@@ -9,7 +9,7 @@ import cookieParser from 'cookie-parser';
 //importa modulos para manejar logs
 import morgan from 'morgan'
 //importando debug
-import importdebug from 'debug'
+//import importdebug from 'debug'
 //imports para crear Dirname
 import { fileURLToPath } from 'node:url';
 //importando el template engine Handlebars
@@ -24,9 +24,9 @@ import {registerViteHelper} from './lib/vite.js'
 import logger from './lib/winston.js'
 
 //ejecutando importdebug
-const debug = importdebug('dwssr-2026b:server')
-debug("🔨 creando backend")
-
+//const debug = importdebug('dwssr-2026b:server')
+//debug("🔨 creando backend")
+logger.info("🔨 creando backend")
 
 //creando las variables de rutas
 const __filename = fileURLToPath(import.meta.url)
@@ -61,11 +61,13 @@ if(process.env.NODE_ENV === 'production'){
 }
 
 
-debug("🔨 creando servidor de archivos estaticos")
+//debug("🔨 creando servidor de archivos estaticos")
+logger.info("🔨 creando servidor de archivos estaticos")
 //configura la ruta de archivos estaticos
 app.use(express.static(path.join(__dirname, '..','public')));
 
-debug("🛤️  registrando rutas")
+//debug("🛤️  registrando rutas")
+logger.info("🛤️  registrando rutas")
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
