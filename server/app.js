@@ -12,20 +12,19 @@ import morgan from 'morgan'
 //import importdebug from 'debug'
 //imports para crear Dirname
 import { fileURLToPath } from 'node:url';
-//importando el template engine Handlebars
-import hbs from 'hbs'
+
+
 
 //importa las rutas de la aplicacion
 import indexRouter from '#routes/index.js'
 import usersRouter from '#routes/users.js'
 //importando el registrador del helper
-import {registerViteHelper} from './lib/vite.js'
-//importando la configuracion de winston logger
+//importando la funciona de configuracion de hbs
+import configureHandlebars from './lib/handlebars.js';
 import logger from './lib/winston.js'
 
-//ejecutando importdebug
-//const debug = importdebug('dwssr-2026b:server')
-//debug("🔨 creando backend")
+
+//creando backend
 logger.info("🔨 creando backend")
 
 //creando las variables de rutas
@@ -37,10 +36,7 @@ const app = express();
 
 
 // view engine setup, configura el motor de vistas
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
-//registro helper
-registerViteHelper(hbs)
+configureHandlebars(app)
 
 //configurar middelwares de la aplicacion
 //morgan manda sus logs de peticiones http a winston en lugar de imprimirlos directo en consola
@@ -61,12 +57,12 @@ if(process.env.NODE_ENV === 'production'){
 }
 
 
-//debug("🔨 creando servidor de archivos estaticos")
+//creando servidor de archivos estaticos
 logger.info("🔨 creando servidor de archivos estaticos")
 //configura la ruta de archivos estaticos
 app.use(express.static(path.join(__dirname, '..','public')));
 
-//debug("🛤️  registrando rutas")
+//registrando rutas
 logger.info("🛤️  registrando rutas")
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
