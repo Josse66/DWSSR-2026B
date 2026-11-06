@@ -4,10 +4,6 @@ import fs from 'node:fs'
 //bibloteca de rutas
 import path, {dirname} from 'node:path'
 
-//importando hbs
-//importando el template engine Handlebars
-import hbs from 'hbs'
-
 //imports para crear Dirname
 import { fileURLToPath } from 'node:url';
 
@@ -78,7 +74,8 @@ export function viteAssets(){
 
 /*
 Funcion registradora del helper de Handlebars
+Recibe la instancia de handlebars del motor (express-handlebars) y registra el helper ahi
 */
-export function registerViteHelper(){
-    hbs.registerHelper('viteAssets', ()=> new hbs.SafeString(viteAssets())) //sanitizando la salida del helper
+export function registerViteHelper(handlebars){
+    handlebars.registerHelper('viteAssets', ()=> new handlebars.SafeString(viteAssets())) //sanitizando la salida del helper
 }
